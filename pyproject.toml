@@ -1,0 +1,47 @@
+[project]
+name = "PBI-PBIT-filters"
+description = "Smudge and Clean filters for Power BI generated JSONs."
+dynamic = ["version"]
+
+[tool.mypy]
+# When in doubt, borrowed from pandas
+# https://github.com/pandas-dev/pandas/blob/417d1c94fe3810f695e94360a/pyproject.toml#L66
+# Import discovery
+ignore_missing_imports = true
+# Untyped definitions and calls
+check_untyped_defs = true
+# disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+# None and Optional handling
+no_implicit_optional = true
+# Configuring warnings
+warn_redundant_casts = true
+warn_unused_ignores = true
+# Miscellaneous strictness flags
+strict_equality = true
+# Configuring error messages
+pretty = true
+show_error_codes = true
+
+[tool.ruff]
+target-version = "py312"
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint]
+extend-select = ["ALL"]
+ignore = [
+    "COM812", # Conflicts with `ruff format` and raises a warning.
+    "D",      # Ignore docstrings (`pydocstyle`) checks.
+    "ERA",    # Allow commented-out code.
+    "FBT003", # Allow Boolean positional value in function call.
+    "INP",    # Avoid error: "File _____ is part of an implicit namespace package. Add
+    # an `__init__.py`."
+    "ISC001", # Conflicts with `ruff format` and raises a warning.
+    "PD010",  # This rule is just outright wrong.
+    "T20",    # Allow `print` statements.
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"

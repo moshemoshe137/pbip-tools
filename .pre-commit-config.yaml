@@ -1,0 +1,82 @@
+default_stages:
+  [
+    commit,
+    merge-commit,
+    push,
+    prepare-commit-msg,
+    commit-msg,
+    post-checkout,
+    post-commit,
+    post-merge,
+    post-rewrite,
+  ]
+exclude: |
+  (?x)(
+  \.(html|csv|svg)$
+  )
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-ast
+      - id: check-case-conflict
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-vcs-permalinks
+      - id: check-yaml
+      - id: destroyed-symlinks
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        args:
+          - --install-types
+          - --non-interactive
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.5
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [ --fix ]
+      # Run the formatter.
+      - id: ruff-format
+
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.8.7
+    hooks:
+      - id: nbqa-check-ast
+      - id: nbqa-mypy
+        additional_dependencies:
+          - mypy==1.11.2
+        args:
+          - --install-types
+          - --non-interactive
+
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.29.2
+    hooks:
+      - id: check-github-actions
+      - id: check-github-workflows
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.3
+    hooks:
+      - id: prettier
+        name: prettier-markdown
+        args:
+          - "--print-width=88"
+          - "--prose-wrap=always"
+        types: [markdown]
+
+  - repo: https://github.com/moshemoshe137/prettier-markdown-jupyter
+    rev: 0.1.0
+    hooks:
+      - id: format-markdown-notebook
