@@ -30,6 +30,7 @@ repos:
       - id: destroyed-symlinks
       - id: detect-private-key
       - id: end-of-file-fixer
+        exclude: .*\.(Report\/|SemanticModel\/|pbip$)
       - id: mixed-line-ending
       - id: trailing-whitespace
 

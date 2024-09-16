@@ -1,0 +1,9 @@
+{
+  "version": "4.0",
+  "datasetReference": {
+    "byPath": {
+      "path": "../Sales & Returns Sample v201912.SemanticModel"
+    },
+    "byConnection": null
+  }
+}

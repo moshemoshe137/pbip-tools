@@ -406,3 +406,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,windows,jupyternotebooks,powershell,data,venv,r,intellij+all
+
+# https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-overview#gitignore
+**/.pbi/localSettings.json
+**/.pbi/cache.abf

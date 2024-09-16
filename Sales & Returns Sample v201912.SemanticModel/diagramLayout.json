@@ -1,0 +1,214 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "Association",
+          "size": {
+            "height": 213,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 100.61085825246479,
+            "y": 430
+          },
+          "nodeIndex": "Store",
+          "size": {
+            "height": 213,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 386.45261881807613,
+            "y": 332.16666666666669
+          },
+          "nodeIndex": "Sales",
+          "size": {
+            "height": 310,
+            "width": 282
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1261.9639222967949,
+            "y": 0
+          },
+          "nodeIndex": "Analysis DAX",
+          "size": {
+            "height": 118,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 391.09724885422185,
+            "y": 0
+          },
+          "nodeIndex": "Product",
+          "size": {
+            "height": 304,
+            "width": 280
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 987.96392229679486,
+            "y": 0
+          },
+          "nodeIndex": "Design DAX",
+          "size": {
+            "height": 118,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 717.89003489172683,
+            "y": 367
+          },
+          "nodeIndex": "Calendar",
+          "size": {
+            "height": 194,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1535.9639222967949,
+            "y": 0
+          },
+          "nodeIndex": "% Return Rate",
+          "size": {
+            "height": 213,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 713.96392229679486,
+            "y": 0
+          },
+          "nodeIndex": "Customer",
+          "size": {
+            "height": 327,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1809.9639222967949,
+            "y": 215
+          },
+          "nodeIndex": "Issues and Promotions",
+          "size": {
+            "height": 156,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1499.3537795431394,
+            "y": 304
+          },
+          "nodeIndex": "Age",
+          "size": {
+            "height": 137,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1773.3537795431394,
+            "y": 411
+          },
+          "nodeIndex": "STable",
+          "size": {
+            "height": 137,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1798.1821683597029,
+            "y": 0
+          },
+          "nodeIndex": "Tooltip Info",
+          "size": {
+            "height": 175,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 253
+          },
+          "nodeIndex": "Associated Product",
+          "size": {
+            "height": 137,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2087.9489666185573,
+            "y": 0
+          },
+          "nodeIndex": "Tooltip Info2",
+          "size": {
+            "height": 156,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2401.4405393862794,
+            "y": 0
+          },
+          "nodeIndex": "Details",
+          "size": {
+            "height": 213,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
