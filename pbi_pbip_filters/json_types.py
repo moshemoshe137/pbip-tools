@@ -1,0 +1,3 @@
+# (Attempt to) define type aliases for JSON data...
+JSONPrimitive = str | int | float | bool | None
+JSONType = dict[str | int, "JSONType"] | list["JSONType"] | JSONPrimitive

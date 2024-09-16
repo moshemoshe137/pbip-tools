@@ -1,9 +1,7 @@
 import json
 import sys
 
-# (Attempt to) define type aliases for JSON data...
-JSONPrimitive = str | int | float | bool | None
-JSONType = dict[str | int, "JSONType"] | list["JSONType"] | JSONPrimitive
+from pbi_pbit_filters.json_types import JSONType
 
 
 def format_nested_json_strings(json_data: JSONType) -> JSONType:
