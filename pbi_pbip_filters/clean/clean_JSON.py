@@ -1,5 +1,6 @@
+import argparse
 import json
-import sys
+from pathlib import Path
 
 from pbi_pbip_filters.json_types import JSONType
 
@@ -27,6 +28,29 @@ def format_nested_json_strings(json_data: JSONType) -> JSONType:
     return json_data
 
 
-json_data = json.loads(sys.stdin.read())
-formatted_data = format_nested_json_strings(json_data)
-sys.stdout.write(json.dumps(formatted_data, ensure_ascii=False, indent=4))
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        prog="clean_JSON",
+        description="Clean PowerBI generated nested JSON files.",
+    )
+    parser.add_argument("filename", nargs="+", help="One or more filenames to process")
+
+    files = parser.parse_args().filename
+    for file in files:
+        try:
+            with Path(file).open() as f:
+                original_json = json.loads(f.read())
+
+            formatted_json = format_nested_json_strings(original_json)
+            formatted_json = json.dumps(formatted_json, ensure_ascii=False, indent=4)
+
+            with Path(file).open("w") as f:
+                f.write(formatted_json)
+
+        except Exception as e:
+            msg = f"Error processing {file}: {e}"
+            raise ValueError(msg) from e
+
+
+if __name__ == "__main__":
+    main()
