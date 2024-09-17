@@ -45,7 +45,7 @@ def _format_json_files(json_files: list[PathLike]) -> int:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        prog="clean_JSON",
+        prog="JSON-clean",
         description="Clean PowerBI generated nested JSON files.",
     )
     parser.add_argument(

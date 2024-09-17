@@ -5,6 +5,7 @@ dynamic = ["version"]
 
 [project.scripts]
 json-clean = "pbi_pbip_filters.clean.clean_JSON:main"
+json-smudge = "pbi_pbip_filters.smudge.smudge_JSON:main"
 
 [tool.mypy]
 # When in doubt, borrowed from pandas

@@ -53,7 +53,7 @@ def _format_json_files(json_files: list[PathLike]) -> int:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        prog="smudge_JSON",
+        prog="json-smudge",
         description="Smudge PowerBI-generated JSON files that have been cleaned.",
     )
     parser.add_argument(
