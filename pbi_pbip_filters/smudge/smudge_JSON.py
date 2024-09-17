@@ -1,7 +1,7 @@
 import json
 import sys
 
-from pbi_pbip_filters.json_types import JSONType
+from pbi_pbip_filters.type_aliases import JSONType
 
 
 def smudge_json(data: JSONType) -> JSONType:
