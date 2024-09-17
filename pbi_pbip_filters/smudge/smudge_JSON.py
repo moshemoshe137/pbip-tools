@@ -1,7 +1,8 @@
+import argparse
 import json
-import sys
+from pathlib import Path
 
-from pbi_pbip_filters.type_aliases import JSONType
+from pbi_pbip_filters.type_aliases import JSONType, PathLike
 
 
 def smudge_json(data: JSONType) -> JSONType:
@@ -16,7 +17,12 @@ def smudge_json(data: JSONType) -> JSONType:
         for key, value in data.items():
             if key in conditional_keys and isinstance(value, dict | list):
                 # Convert these keys back to JSON strings
-                data[key] = json.dumps(value, ensure_ascii=False, indent=0)
+                data[key] = json.dumps(
+                    value,
+                    ensure_ascii=False,
+                    indent=0,
+                    separators=(",", ":"),
+                ).replace("\n", "")
             else:
                 # Recursively apply the smudge operation
                 data[key] = smudge_json(value)
@@ -26,12 +32,40 @@ def smudge_json(data: JSONType) -> JSONType:
     return data
 
 
+def _format_json_files(json_files: list[PathLike]) -> int:
+    for file in json_files:
+        try:
+            with Path(file).open() as f:
+                cleaned_original_json = json.loads(f.read())
+
+            smudged_json = smudge_json(cleaned_original_json)
+            smudged_json = json.dumps(smudged_json, ensure_ascii=False, indent=2)
+
+            with Path(file).open("w") as f:
+                f.write(smudged_json)
+
+        except Exception as e:
+            msg = f"Error processing {file}: {e}"
+            raise ValueError(msg) from e
+
+    return 0
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        prog="smudge_JSON",
+        description="Smudge PowerBI-generated JSON files that have been cleaned.",
+    )
+    parser.add_argument(
+        "filename",
+        nargs="+",  # one or more
+        help="One or more filenames to process",
+        type=Path,
+    )
+
+    files = parser.parse_args().filename
+    _format_json_files(files)
+
+
 if __name__ == "__main__":
-    # Read JSON data from stdin
-    input_json = json.loads(sys.stdin.read())
-
-    # Process the JSON data
-    output_json = smudge_json(input_json)
-
-    # Output the formatted JSON
-    sys.stdout.write(json.dumps(output_json, ensure_ascii=False, indent=4))
+    main()
