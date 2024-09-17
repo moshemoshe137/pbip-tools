@@ -3,6 +3,9 @@ name = "PBI-PBIP-filters"
 description = "Smudge and Clean filters for Power BI generated JSONs."
 dynamic = ["version"]
 
+[project.scripts]
+json-clean = "pbi_pbip_filters.clean.clean_JSON:main"
+
 [tool.mypy]
 # When in doubt, borrowed from pandas
 # https://github.com/pandas-dev/pandas/blob/417d1c94fe3810f695e94360a/pyproject.toml#L66
