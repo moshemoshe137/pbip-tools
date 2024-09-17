@@ -32,15 +32,8 @@ def format_nested_json_strings(json_data: JSONType) -> JSONType:
     return json_data
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        prog="clean_JSON",
-        description="Clean PowerBI generated nested JSON files.",
-    )
-    parser.add_argument("filename", nargs="+", help="One or more filenames to process")
-
-    files = parser.parse_args().filename
-    for file in files:
+def _format_json_files(json_files: list[PathLike]) -> int:
+    for file in json_files:
         try:
             with Path(file).open() as f:
                 original_json = json.loads(f.read())
@@ -54,6 +47,24 @@ def main() -> None:
         except Exception as e:
             msg = f"Error processing {file}: {e}"
             raise ValueError(msg) from e
+
+    return 0
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        prog="clean_JSON",
+        description="Clean PowerBI generated nested JSON files.",
+    )
+    parser.add_argument(
+        "filename",
+        nargs="+",  # one or more
+        help="One or more filenames to process",
+        type=Path,
+    )
+
+    files = parser.parse_args().filename
+    _format_json_files(files)
 
 
 if __name__ == "__main__":
