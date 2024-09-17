@@ -1,8 +1,10 @@
 import json
 import sys
 
+from pbi_pbip_filters.json_types import JSONType
 
-def smudge_json(data):
+
+def smudge_json(data: JSONType) -> JSONType:
     """
     Converts certain keys' values back to JSON strings for use by Power BI.
     """
