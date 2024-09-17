@@ -1,5 +1,5 @@
 [project]
-name = "PBI-PBIT-filters"
+name = "PBI-PBIP-filters"
 description = "Smudge and Clean filters for Power BI generated JSONs."
 dynamic = ["version"]
 
