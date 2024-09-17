@@ -37,10 +37,11 @@ ignore = [
     "ERA",    # Allow commented-out code.
     "FBT003", # Allow Boolean positional value in function call.
     "INP",    # Avoid error: "File _____ is part of an implicit namespace package. Add
-    # an `__init__.py`."
+              # an `__init__.py`."
     "ISC001", # Conflicts with `ruff format` and raises a warning.
     "PD010",  # This rule is just outright wrong.
     "T20",    # Allow `print` statements.
+    "UP040",  # until `mypy` supports the `type` keyword.
 ]
 
 [tool.ruff.lint.pydocstyle]

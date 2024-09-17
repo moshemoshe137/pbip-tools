@@ -1,8 +1,12 @@
 import argparse
 import json
+import os
 from pathlib import Path
+from typing import Any, TypeAlias
 
 from pbi_pbip_filters.json_types import JSONType
+
+PathLike: TypeAlias = str | Path | os.PathLike[Any]
 
 
 def format_nested_json_strings(json_data: JSONType) -> JSONType:
