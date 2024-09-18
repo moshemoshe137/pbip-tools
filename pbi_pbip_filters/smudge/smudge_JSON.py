@@ -1,5 +1,6 @@
 import argparse
 import json
+import re
 from pathlib import Path
 
 from pbi_pbip_filters.type_aliases import JSONType, PathLike
@@ -40,6 +41,25 @@ def _format_json_files(json_files: list[PathLike]) -> int:
 
             smudged_json = smudge_json(cleaned_original_json)
             smudged_json = json.dumps(smudged_json, ensure_ascii=False, indent=2)
+
+            # Force all floats to two decimal places with this regex
+            pat = r"""(?x)  # (Turns on comments for this regex.)
+                (           # ##### Start Capturing Part 1 (text before the value) #####
+                    \s*?:       # Zero or more spaces followed by a colon.
+                    \s*?        # There *might* be space after the colon.
+                )           # #### Finish Capturing Part 1 (text before the value) #####
+                (?P<value>  # ################ Start Capturing "value" #################
+                    \d+         # One or more digits...
+                    \.          # followed by a literal dot...
+                    \d          # followed by exactly one digit in the 10ths place.
+                )           # ############### Finish Capturing "value" #################
+                (           # ##### Start Capturing Part 3 (text after the value) ######
+                    \s*?        # There *might* be space after the digit
+                    []},]       # Usually ends with ","; might end with "}" or "]
+                )           # #### Finish Capturing Part 13 (text after the value) #####
+                """
+            replacement = r"\1\g<value>0\3"  # Tack on a zero in the 100ths place.
+            smudged_json = re.sub(pat, replacement, smudged_json)
 
             with Path(file).open("w") as f:
                 f.write(smudged_json)
