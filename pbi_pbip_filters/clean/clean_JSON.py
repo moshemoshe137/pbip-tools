@@ -1,10 +1,10 @@
 import argparse
 import json
 import re
-from collections.abc import Iterable
 from pathlib import Path
 
-from pbi_pbip_filters.type_aliases import JSONType, PathLike
+from pbi_pbip_filters.json_utils import _process_and_save_json_files
+from pbi_pbip_filters.type_aliases import JSONType
 
 
 def clean_json(json_data: JSONType) -> str:
@@ -48,25 +48,7 @@ def clean_json(json_data: JSONType) -> str:
     return json.dumps(json_data, ensure_ascii=False, indent=4)
 
 
-def _format_json_files(json_files: Iterable[PathLike]) -> int:
-    for file in json_files:
-        try:
-            with Path(file).open(encoding="UTF-8") as f:
-                original_json = json.loads(f.read())
-
-            formatted_json = clean_json(original_json)
-
-            with Path(file).open("w", encoding="UTF-8") as f:
-                f.write(formatted_json)
-
-        except Exception as e:
-            msg = f"Error processing {file}: {e}"
-            raise ValueError(msg) from e
-
-    return 0
-
-
-def main() -> None:
+def main() -> int:
     parser = argparse.ArgumentParser(
         prog="JSON-clean",
         description="Clean PowerBI generated nested JSON files.",
@@ -83,7 +65,7 @@ def main() -> None:
         for file in Path().glob(file_or_glob)
     )
 
-    _format_json_files(files)
+    return _process_and_save_json_files(files, clean_json)
 
 
 if __name__ == "__main__":

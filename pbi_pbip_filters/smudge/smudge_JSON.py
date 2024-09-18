@@ -1,10 +1,10 @@
 import argparse
 import json
 import re
-from collections.abc import Iterable
 from pathlib import Path
 
-from pbi_pbip_filters.type_aliases import JSONType, PathLike
+from pbi_pbip_filters.json_utils import _process_and_save_json_files
+from pbi_pbip_filters.type_aliases import JSONType
 
 
 def smudge_json(data: JSONType) -> str:
@@ -67,25 +67,7 @@ pattern_decimal_with_tenths_place_only = r"""(?x)  # (Turns on comments for this
 replacement = r"\1\g<value>0\3"  # Tack on a zero in the thousandths place.
 
 
-def _format_json_files(json_files: Iterable[PathLike]) -> int:
-    for file in json_files:
-        try:
-            with Path(file).open(encoding="UTF-8") as f:
-                cleaned_original_json = json.loads(f.read())
-
-            smudged_json = smudge_json(cleaned_original_json)
-
-            with Path(file).open("w", encoding="UTF-8") as f:
-                f.write(smudged_json)
-
-        except Exception as e:
-            msg = f"Error processing {file}: {e}"
-            raise ValueError(msg) from e
-
-    return 0
-
-
-def main() -> None:
+def main() -> int:
     parser = argparse.ArgumentParser(
         prog="json-smudge",
         description="Smudge PowerBI-generated JSON files that have been cleaned.",
@@ -102,7 +84,7 @@ def main() -> None:
         for file in Path().glob(file_or_glob)
     )
 
-    _format_json_files(files)
+    return _process_and_save_json_files(files, smudge_json)
 
 
 if __name__ == "__main__":
