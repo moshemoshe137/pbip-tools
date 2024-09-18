@@ -1,6 +1,7 @@
 import argparse
 import json
 import re
+from collections.abc import Iterable
 from pathlib import Path
 
 from pbi_pbip_filters.type_aliases import JSONType, PathLike
@@ -34,16 +35,16 @@ def format_nested_json_strings(json_data: JSONType) -> JSONType:
     return json_data
 
 
-def _format_json_files(json_files: list[PathLike]) -> int:
+def _format_json_files(json_files: Iterable[PathLike]) -> int:
     for file in json_files:
         try:
-            with Path(file).open() as f:
+            with Path(file).open(encoding="UTF-8") as f:
                 original_json = json.loads(f.read())
 
             formatted_json = format_nested_json_strings(original_json)
             formatted_json = json.dumps(formatted_json, ensure_ascii=False, indent=4)
 
-            with Path(file).open("w") as f:
+            with Path(file).open("w", encoding="UTF-8") as f:
                 f.write(formatted_json)
 
         except Exception as e:
@@ -61,11 +62,15 @@ def main() -> None:
     parser.add_argument(
         "filename",
         nargs="+",  # one or more
-        help="One or more filenames to process",
-        type=Path,
+        help="One or more filenames or glob patterns to process",
     )
 
-    files = parser.parse_args().filename
+    files = (
+        file
+        for file_or_glob in parser.parse_args().filename
+        for file in Path().glob(file_or_glob)
+    )
+
     _format_json_files(files)
 
 

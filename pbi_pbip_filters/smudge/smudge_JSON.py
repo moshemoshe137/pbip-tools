@@ -1,6 +1,7 @@
 import argparse
 import json
 import re
+from collections.abc import Iterable
 from pathlib import Path
 
 from pbi_pbip_filters.type_aliases import JSONType, PathLike
@@ -33,10 +34,10 @@ def smudge_json(data: JSONType) -> JSONType:
     return data
 
 
-def _format_json_files(json_files: list[PathLike]) -> int:
+def _format_json_files(json_files: Iterable[PathLike]) -> int:
     for file in json_files:
         try:
-            with Path(file).open() as f:
+            with Path(file).open(encoding="UTF-8") as f:
                 cleaned_original_json = json.loads(f.read())
 
             smudged_json = smudge_json(cleaned_original_json)
@@ -61,7 +62,7 @@ def _format_json_files(json_files: list[PathLike]) -> int:
             replacement = r"\1\g<value>0\3"  # Tack on a zero in the 100ths place.
             smudged_json = re.sub(pat, replacement, smudged_json)
 
-            with Path(file).open("w") as f:
+            with Path(file).open("w", encoding="UTF-8") as f:
                 f.write(smudged_json)
 
         except Exception as e:
@@ -79,11 +80,15 @@ def main() -> None:
     parser.add_argument(
         "filename",
         nargs="+",  # one or more
-        help="One or more filenames to process",
-        type=Path,
+        help="One or more filenames or glob patterns to process",
     )
 
-    files = parser.parse_args().filename
+    files = (
+        file
+        for file_or_glob in parser.parse_args().filename
+        for file in Path().glob(file_or_glob)
+    )
+
     _format_json_files(files)
 
 
