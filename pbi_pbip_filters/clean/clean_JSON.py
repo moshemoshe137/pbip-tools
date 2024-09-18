@@ -1,5 +1,6 @@
 import argparse
 import json
+import re
 from pathlib import Path
 
 from pbi_pbip_filters.type_aliases import JSONType, PathLike
@@ -15,6 +16,11 @@ def format_nested_json_strings(json_data: JSONType) -> JSONType:
         if isinstance(value, dict | list):
             json_data[list_position_or_dict_key] = format_nested_json_strings(value)  # type:ignore[index]
         elif isinstance(value, str):
+            float_pattern = r"^-?\d+\.\d+$"
+            if re.match(float_pattern, value):
+                # Do NOT parse floats. Instead, leave them as they appear in the
+                # original JSON-- as actual strings or quoted strings.
+                continue
             try:
                 parsed_value = json.loads(value)
                 formatted_value = format_nested_json_strings(parsed_value)
