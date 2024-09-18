@@ -17,9 +17,13 @@ def format_nested_json_strings(json_data: JSONType) -> JSONType:
             json_data[list_position_or_dict_key] = format_nested_json_strings(value)  # type:ignore[index]
         elif isinstance(value, str):
             float_pattern = r"^-?\d+\.\d+$"
-            if re.match(float_pattern, value):
-                # Do NOT parse floats. Instead, leave them as they appear in the
-                # original JSON-- as actual strings or quoted strings.
+            boolean_pattern = "true|false"
+            float_or_bool_pat = float_pattern + "|" + boolean_pattern
+            if re.match(float_or_bool_pat, value):
+                # Do NOT parse raw floats and booleans. Doing so may change their
+                # datatypes and make cleaning irreversible. Instead, preserve the
+                # datatypes as they appeared in the original JSON, even if that's a
+                # float or a boolean formatted as a string.
                 continue
             try:
                 parsed_value = json.loads(value)
