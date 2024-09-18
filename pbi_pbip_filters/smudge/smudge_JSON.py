@@ -11,7 +11,7 @@ def smudge_json(data: JSONType) -> JSONType:
     """
 
     # Define the keys that need to be converted to JSON strings
-    conditional_keys = {"config", "filters", "value"}
+    conditional_keys = {"config", "filters", "value", "parameters"}
 
     if isinstance(data, dict):
         for key, value in data.items():
