@@ -10,10 +10,12 @@ default_stages:
     post-merge,
     post-rewrite,
   ]
+
 exclude: |
   (?x)(
   \.(html|csv|svg)$
   )
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
@@ -47,11 +49,9 @@ repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.6.5
     hooks:
-      # Run the linter.
-      - id: ruff
-        args: [ --fix ]
-      # Run the formatter.
-      - id: ruff-format
+      - id: ruff # Run the linter.
+        args: [--fix]
+      - id: ruff-format # Run the formatter.
 
   - repo: https://github.com/nbQA-dev/nbQA
     rev: 1.8.7
