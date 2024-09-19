@@ -48,5 +48,8 @@ ignore = [
     "UP040",  # until `mypy` supports the `type` keyword.
 ]
 
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"] # Use of `assert` detected
+
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"
