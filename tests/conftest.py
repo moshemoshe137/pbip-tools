@@ -10,13 +10,13 @@ json_glob = "Sales & Returns Sample v201912*/**/*.json"
 json_files_list = list(top_level_directory.glob(json_glob))
 
 
-@pytest.fixture(params=json_files_list)
+@pytest.fixture(params=json_files_list, ids=str)
 def json_files() -> list[Path]:
     """All JSON files from the sample Power BI report."""
     return json_files_list
 
 
-@pytest.fixture(params=json_files_list)
+@pytest.fixture(params=json_files_list, ids=str)
 def json_file(request: pytest.FixtureRequest) -> Path:
     """A single JSON file from the sample Power BI report."""
     return request.param
