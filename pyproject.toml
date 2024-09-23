@@ -1,11 +1,40 @@
 [project]
 name = "PBI-PBIP-filters"
-description = "Smudge and Clean filters for Power BI generated JSONs."
-dynamic = ["version"]
+description = "Smudge and Clean filters for Power BI-generated JSON files."
+version = "0.0.0"
+
+authors = [
+    {name = "Moshe Rubin", email = "mosherubin137@gmail.com"}
+]
+
+license = { file = "LICENSE" }
+readme = "readme.md"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: File Formats :: JSON :: JSON Schema",
+    "Topic :: File Formats :: JSON",
+    "Topic :: Software Development :: Version Control :: Git",
+    "Topic :: Software Development :: Version Control",
+]
+requires-python = ">=3.12"
 
 [project.scripts]
 json-clean = "pbi_pbip_filters.clean.clean_JSON:main"
 json-smudge = "pbi_pbip_filters.smudge.smudge_JSON:main"
+
+[project.urls]
+Homepage = "https://github.com/moshemoshe137/PBI-PBIP-filters"
+Repository = "https://github.com/moshemoshe137/PBI-PBIP-filters"
+Issues = "https://github.com/moshemoshe137/PBI-PBIP-filters/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.mypy]
 # When in doubt, borrowed from pandas
