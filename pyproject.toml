@@ -37,7 +37,6 @@ extend-include = ["*.ipynb"]
 extend-select = ["ALL"]
 ignore = [
     "COM812", # Conflicts with `ruff format` and raises a warning.
-    "D",      # Ignore docstrings (`pydocstyle`) checks.
     "ERA",    # Allow commented-out code.
     "FBT003", # Allow Boolean positional value in function call.
     "INP",    # Avoid error: "File _____ is part of an implicit namespace package. Add
