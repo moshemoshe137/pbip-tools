@@ -1,9 +1,11 @@
+import shutil
+from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
 
-test_directory = Path(__file__).parent
-top_level_directory = test_directory.parent
+tests_directory = Path(__file__).parent
+top_level_directory = tests_directory.parent
 
 # We don't want to process any of the JSONs in other directories, such as `.mypy_cache`.
 json_glob = "Sales & Returns Sample v201912*/**/*.json"
@@ -14,6 +16,13 @@ json_files_list = list(top_level_directory.glob(json_glob))
 def json_files() -> list[Path]:
     """All JSON files from the sample Power BI report."""
     return json_files_list
+
+
+@pytest.fixture
+def temp_json_files(json_files: list[Path], tmp_path: Path) -> Iterator[Path]:
+    for file in json_files:
+        shutil.copy2(file, tmp_path / file.name)
+    return ((tmp_path / file.name).resolve() for file in json_files)
 
 
 @pytest.fixture(params=json_files_list, ids=str)
