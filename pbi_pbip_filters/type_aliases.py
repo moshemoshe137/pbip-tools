@@ -1,3 +1,16 @@
+"""
+Type aliases for easy type hinting throughout the project.
+
+Attributes
+----------
+JSONPrimitive : TypeAlias
+    Represents JSON primitive types: string, numeric, boolean, or None.
+JSONType : TypeAlias
+    Represents the recursive structure of a JSON object.
+PathLike : TypeAlias
+    Represents file system paths, but behaves a little nicer than `os.PathLike`.
+"""
+
 # (Attempt to) define type aliases for JSON data...
 import os
 from pathlib import Path
