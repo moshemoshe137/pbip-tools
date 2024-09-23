@@ -1,3 +1,5 @@
+"""Shared tests for both filters, `clean_json` and `smudge_json`."""
+
 import json
 import subprocess
 import sys
@@ -37,6 +39,7 @@ def test_filter_idempotence(
 def test_process_batch_files(
     filter_function: Callable[[JSONType], str], temp_json_files: Iterable[Path]
 ) -> None:
+    """Test processing a list of files on the command line."""
     # Fixes [S607](https://docs.astral.sh/ruff/rules/start-process-with-partial-path/).
     # Find the absolute path to the `json-clean` or `json-smudge` executable.
     executable_name = {
