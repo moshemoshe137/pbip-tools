@@ -1,8 +1,12 @@
 import shutil
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from pathlib import Path
 
 import pytest
+
+from pbi_pbip_filters.clean.clean_JSON import clean_json
+from pbi_pbip_filters.smudge.smudge_JSON import smudge_json
+from pbi_pbip_filters.type_aliases import JSONType
 
 tests_directory = Path(__file__).parent
 top_level_directory = tests_directory.parent
@@ -34,3 +38,8 @@ def json_file(request: pytest.FixtureRequest) -> Path:
 @pytest.fixture
 def json_from_file_str(json_file: Path) -> str:
     return Path(json_file).read_text(encoding="UTF-8")
+
+
+@pytest.fixture(params=[clean_json, smudge_json])
+def filter_function(request: pytest.FixtureRequest) -> Callable[[JSONType], str]:
+    return request.param
