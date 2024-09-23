@@ -1,7 +1,7 @@
 import argparse
+import glob
 import json
 import re
-from pathlib import Path
 
 from pbi_pbip_filters.json_utils import _process_and_save_json_files
 from pbi_pbip_filters.type_aliases import JSONType
@@ -81,7 +81,7 @@ def main() -> int:
     files = (
         file
         for file_or_glob in parser.parse_args().filename
-        for file in Path().glob(file_or_glob)
+        for file in glob.glob(file_or_glob, recursive=True)
     )
 
     return _process_and_save_json_files(files, smudge_json)

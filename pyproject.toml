@@ -44,6 +44,7 @@ ignore = [
               # an `__init__.py`."
     "ISC001", # Conflicts with `ruff format` and raises a warning.
     "PD010",  # This rule is just outright wrong.
+    "PTH207", # Since `Path.glob` != `glob.glob` (the latter can take absolute paths).
     "T20",    # Allow `print` statements.
     "UP040",  # until `mypy` supports the `type` keyword.
 ]
