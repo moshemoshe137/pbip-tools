@@ -1,13 +1,13 @@
 name: Tox Pytest Tests - All OSes - Python 3.10, 3.11, 3.12
 
 on:
-  push:
-  pull_request:
-  workflow_dispatch:
+  push: # Trigger on any push
+  pull_request: # Trigger on any Pull Request
+  workflow_dispatch: # Allow manual runs
 
 defaults:
   run:
-    shell: pwsh
+    shell: pwsh # Use PowerShell Core as the main shell for all OSes
 
 jobs:
   tox-tests:
@@ -15,7 +15,7 @@ jobs:
       Tox ${{ matrix.test }} - Python ${{ matrix.python-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
+      fail-fast: false # Don't halt when one test fails
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
         os: [windows-latest, ubuntu-latest, macos-latest]
