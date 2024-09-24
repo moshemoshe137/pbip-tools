@@ -12,7 +12,7 @@ defaults:
 jobs:
   tox-tests:
     name: >
-      Tox ${{ matrix.test }} - Python ${{ matrix.python-version }} on ${{ matrix.os }}
+      ${{ matrix.test }} - Python ${{ matrix.python-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false # Don't halt when one test fails
@@ -36,6 +36,11 @@ jobs:
           python -m pip install --editable .
 
       - name: Run tests with tox
+        if: matrix.test == 'pytest'
         run: >
-          tox -e "py${{ matrix.python-version }}-${{ matrix.test }}" -- --verbose
-          --durations=100 -n=auto
+          tox -e "py${{ matrix.python-version }}-pytest" -- --verbose --durations=100
+          -n=auto
+
+      - name: '`pre-commit` checks'
+        if: matrix.test == 'pre-commit'
+        uses: pre-commit/action@v3.0.1
