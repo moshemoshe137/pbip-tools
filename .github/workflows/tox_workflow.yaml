@@ -1,0 +1,42 @@
+name: Tox Pytest Tests - All OSes - Python 3.10, 3.11, 3.12
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  tox-tests:
+    name: >
+      Tox ${{ matrix.test }} - Python ${{ matrix.python-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        test: [pytest, pre-commit]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip" # cache pip dependencies
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools tox
+          python -m pip install --editable .
+
+      - name: Run tests with tox
+        run: >
+          tox --doctest-modules --random-order-seed=0 --verbose --durations=100 --cov
+          --cov-report=xml --cov-append -e
+          "py${{ matrix.python-version }}-${{ matrix.test }}"
