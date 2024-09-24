@@ -37,6 +37,6 @@ jobs:
 
       - name: Run tests with tox
         run: >
-          tox --doctest-modules --random-order-seed=0 --verbose --durations=100 --cov
+          tox -- --doctest-modules --random-order-seed=0 --verbose --durations=100 --cov
           --cov-report=xml --cov-append -e
           "py${{ matrix.python-version }}-${{ matrix.test }}"
