@@ -39,3 +39,4 @@ jobs:
         run: >
           tox -e "py${{ matrix.python-version }}-${{ matrix.test }}" --
           --doctest-modules --random-order-seed=0 --verbose --durations=100 --cov
+          -n=auto
