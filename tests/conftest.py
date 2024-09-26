@@ -11,7 +11,7 @@ from pbi_pbip_filters.smudge.smudge_JSON import smudge_json
 from pbi_pbip_filters.type_aliases import JSONType
 
 tests_directory = Path(__file__).parent
-json_files_list = list(tests_directory.glob("**/*.json"))
+json_files_list = list(tests_directory.glob("Sample PBIP Reports/**/*.json"))
 
 
 @pytest.fixture(params=json_files_list, ids=str)
