@@ -1,0 +1,9 @@
+{
+  "version": "4.0",
+  "datasetReference": {
+    "byPath": {
+      "path": "../Employee Hiring and History.SemanticModel"
+    },
+    "byConnection": null
+  }
+}

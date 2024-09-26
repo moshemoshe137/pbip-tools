@@ -1,0 +1,142 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 431.99515349902151,
+            "y": 695.24353715546033
+          },
+          "nodeIndex": "BU",
+          "size": {
+            "height": 187,
+            "width": 254
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 725.99515349902151,
+            "y": 557.25095525504321
+          },
+          "nodeIndex": "FP",
+          "size": {
+            "height": 187,
+            "width": 254
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 653.63643261738116,
+            "y": 65.638167260769649
+          },
+          "nodeIndex": "PayType",
+          "size": {
+            "height": 187,
+            "width": 254
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 359.6364326173811,
+            "y": 0
+          },
+          "nodeIndex": "SeparationReason",
+          "size": {
+            "height": 187,
+            "width": 254
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 398.78859464139009
+          },
+          "nodeIndex": "Date",
+          "size": {
+            "height": 187,
+            "width": 254
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 347.62155707119166,
+            "y": 347.62168877661207
+          },
+          "nodeIndex": "Employee",
+          "size": {
+            "height": 187,
+            "width": 254
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 137.99515349902151,
+            "y": 629.60690386523208
+          },
+          "nodeIndex": "Ethnicity",
+          "size": {
+            "height": 187,
+            "width": 254
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 695.24375621707077,
+            "y": 296.45989567030369
+          },
+          "nodeIndex": "Gender",
+          "size": {
+            "height": 187,
+            "width": 254
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 65.6364326173811,
+            "y": 137.99560610326648
+          },
+          "nodeIndex": "AgeGroup",
+          "size": {
+            "height": 187,
+            "width": 254
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1005.010554475925,
+            "y": 0
+          },
+          "nodeIndex": "Separation Reasons",
+          "size": {
+            "height": 156,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
