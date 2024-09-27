@@ -11,11 +11,7 @@ from pbi_pbip_filters.smudge.smudge_JSON import smudge_json
 from pbi_pbip_filters.type_aliases import JSONType
 
 tests_directory = Path(__file__).parent
-top_level_directory = tests_directory.parent
-
-# We don't want to process any of the JSONs in other directories, such as `.mypy_cache`.
-json_glob = "Sales & Returns Sample v201912*/**/*.json"
-json_files_list = list(top_level_directory.glob(json_glob))
+json_files_list = list(tests_directory.glob("Sample PBIP Reports/**/*.json"))
 
 
 @pytest.fixture(params=json_files_list, ids=str)
