@@ -10,8 +10,12 @@ import argparse
 import glob
 import json
 import re
+import sys
 
-from pbi_pbip_filters.json_utils import _process_and_save_json_files
+from pbi_pbip_filters.json_utils import (
+    _process_and_save_json_files,
+    _specified_stdin_instead_of_file,
+)
 from pbi_pbip_filters.type_aliases import JSONType
 
 
@@ -137,9 +141,19 @@ def main() -> int:
         help="One or more filenames or glob patterns to process",
     )
 
+    args = parser.parse_args()
+
+    # Read from stdin and print to stdout when `-` is given as the filename.
+    if _specified_stdin_instead_of_file(args.filename):
+        json_data = json.load(sys.stdin)
+        filtered_json = smudge_json(json_data)
+        sys.stdout.write(filtered_json)
+        return 0
+
+    # Otherwise, we're processing one or more files or glob patterns.
     files = (
         file
-        for file_or_glob in parser.parse_args().filename
+        for file_or_glob in args.filename
         for file in glob.glob(file_or_glob, recursive=True)
     )
 
