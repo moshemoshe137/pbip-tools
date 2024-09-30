@@ -71,6 +71,41 @@ def _process_and_save_json_files(
     return 0
 
 
+def _specified_stdin_instead_of_file(filename_args: list[str]) -> bool:
+    """
+    Determine if the arguments given on the CLI specify stdin instead of a filename.
+
+    Check the provided CLI arguments `filename_args` for the string "-" as the one and
+    only file specified, which indicates that the user is piping from stdin and we are
+    piping to stdout.
+
+    Parameters
+    ----------
+    args : list of str
+        The list of arguments passed to the function.
+
+    Returns
+    -------
+    bool
+        True if "-" and only "-" is in `args`.
+
+    Raises
+    ------
+    ValueError
+        If both "-" and filenames are given.
+    """
+    if "-" not in filename_args:
+        # They didn't pass "-"
+        return False
+
+    if len(filename_args) > 1:
+        # They passed "-", and also other stuff?
+        msg = "You may either pass `-` or filenames/glob patterns, but not both."
+        raise ValueError(msg)
+
+    return "-" in filename_args  # which is for sure True at this point.
+
+
 def contains_line_comments(json_str: str) -> bool:
     """
     Check a JSON string for line comments, denoted by `//`.
