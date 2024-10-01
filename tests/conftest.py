@@ -1,6 +1,7 @@
 """Shared `pytest` fixtures."""
 
 import shutil
+import sys
 from collections.abc import Callable, Iterator
 from pathlib import Path
 
@@ -83,3 +84,9 @@ def filter_function(request: pytest.FixtureRequest) -> Callable[[JSONType], str]
         The `clean_json` or `smudge_json` function.
     """
     return request.param
+
+
+@pytest.fixture(params=["json-clean", "json-smudge"])
+def filter_function_cli_executable(request: pytest.FixtureRequest) -> Path:
+    """Return the executable to `json-clean` or `json-smudge`."""
+    return Path(sys.executable).parent / request.param
