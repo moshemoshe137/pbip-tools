@@ -136,15 +136,19 @@ def main() -> int:
         description="Smudge PowerBI-generated JSON files that have been cleaned.",
     )
     parser.add_argument(
-        "filename",
+        "filenames",
         nargs="+",  # one or more
-        help="One or more filenames or glob patterns to process",
+        help=(
+            "One or more filenames or glob patterns to process, or pass '-' to read "
+            "from stdin and write to stdout."
+        ),
+        metavar="filename_or_glob",  # Name shown in CLI help text.
     )
 
     args = parser.parse_args()
 
     # Read from stdin and print to stdout when `-` is given as the filename.
-    if _specified_stdin_instead_of_file(args.filename):
+    if _specified_stdin_instead_of_file(args.filenames):
         json_data = json.load(sys.stdin)
         filtered_json = smudge_json(json_data)
         sys.stdout.write(filtered_json)
@@ -153,7 +157,7 @@ def main() -> int:
     # Otherwise, we're processing one or more files or glob patterns.
     files = (
         file
-        for file_or_glob in args.filename
+        for file_or_glob in args.filenames
         for file in glob.glob(file_or_glob, recursive=True)
     )
 
