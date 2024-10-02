@@ -7,16 +7,10 @@ cleaned files *must* be smudged with the `json-smudge` filter before they are lo
 in Power BI again.
 """
 
-import argparse
-import glob
 import json
 import re
-import sys
 
-from pbip_tools.json_utils import (
-    _process_and_save_json_files,
-    _specified_stdin_instead_of_file,
-)
+from pbip_tools.cli import _run_main
 from pbip_tools.type_aliases import JSONType
 
 
@@ -104,47 +98,12 @@ def clean_json(json_data: JSONType) -> str:
 
 
 def main() -> int:
-    """
-    Clean files from CLI with `json-clean`.
-
-    Process command line files or glob patterns and clean each file in-place.
-
-    Returns
-    -------
-    int
-        Returns 0 on successful processing of all files.
-    """
-    parser = argparse.ArgumentParser(
-        prog="json-clean",
-        description="Clean PowerBI generated nested JSON files.",
+    """Clean files from CLI with `json-clean`."""
+    return _run_main(
+        tool_name="json-clean",
+        desc="Clean PowerBI generated nested JSON files.",
+        filter_function=clean_json,
     )
-    parser.add_argument(
-        "filenames",
-        nargs="+",  # one or more
-        help=(
-            "One or more filenames or glob patterns to process, or pass '-' to read "
-            "from stdin and write to stdout."
-        ),
-        metavar="filename_or_glob",  # Name shown in CLI help text.
-    )
-
-    args = parser.parse_args()
-
-    # Read from stdin and print to stdout when `-` is given as the filename.
-    if _specified_stdin_instead_of_file(args.filenames):
-        json_data = json.load(sys.stdin)
-        filtered_json = clean_json(json_data)
-        sys.stdout.write(filtered_json)
-        return 0
-
-    # Otherwise, we're processing one or more files or glob patterns.
-    files = (
-        file
-        for file_or_glob in args.filenames
-        for file in glob.glob(file_or_glob, recursive=True)
-    )
-
-    return _process_and_save_json_files(files, clean_json)
 
 
 if __name__ == "__main__":
