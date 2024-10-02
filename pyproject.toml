@@ -1,5 +1,5 @@
 [project]
-name = "PBI-PBIP-filters"
+name = "pbip-tools"
 description = "Smudge and Clean filters for Power BI-generated JSON files."
 version = "0.0.3"
 
@@ -26,13 +26,13 @@ classifiers = [
 requires-python = ">=3.10"
 
 [project.scripts]
-json-clean = "pbi_pbip_filters.clean.clean_JSON:main"
-json-smudge = "pbi_pbip_filters.smudge.smudge_JSON:main"
+json-clean = "pbip_tools.clean.clean_JSON:main"
+json-smudge = "pbip_tools.smudge.smudge_JSON:main"
 
 [project.urls]
-Homepage = "https://github.com/moshemoshe137/PBI-PBIP-filters"
-Repository = "https://github.com/moshemoshe137/PBI-PBIP-filters"
-Issues = "https://github.com/moshemoshe137/PBI-PBIP-filters/issues"
+Homepage = "https://github.com/moshemoshe137/pbip-tools"
+Repository = "https://github.com/moshemoshe137/pbip-tools"
+Issues = "https://github.com/moshemoshe137/pbip-tools/issues"
 
 [build-system]
 requires = ["hatchling"]

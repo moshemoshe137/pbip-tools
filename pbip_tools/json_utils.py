@@ -6,7 +6,7 @@ import warnings
 from collections.abc import Callable, Iterable
 from pathlib import Path
 
-from pbi_pbip_filters.type_aliases import JSONType, PathLike
+from pbip_tools.type_aliases import JSONType, PathLike
 
 
 def _process_and_save_json_files(

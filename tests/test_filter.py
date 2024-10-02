@@ -6,7 +6,7 @@ import sys
 from collections.abc import Callable, Iterable
 from pathlib import Path
 
-from pbi_pbip_filters.type_aliases import JSONType
+from pbip_tools.type_aliases import JSONType
 
 
 def test_filter_doesnt_fail(
