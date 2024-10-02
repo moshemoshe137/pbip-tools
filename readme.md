@@ -71,7 +71,8 @@ testing, `pre-commit` and `pytest` may be required.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for
+This project is licensed under the MIT License. See the
+[LICENSE](https://github.com/moshemoshe137/PBI-PBIP-filters/blob/main/LICENSE) file for
 details.
 
 ## Contributing
