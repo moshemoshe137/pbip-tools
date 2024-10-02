@@ -1,13 +1,13 @@
-# PBI-PBIP Filters
+# PBIP Tools
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/release/python-312/)
-[![License: MIT](https://img.shields.io/github/license/moshemoshe137/EAB_tools)](https://github.com/moshemoshe137/PBI-PBIP-filters/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/github/license/moshemoshe137/pbip-tools)](https://github.com/moshemoshe137/pbip-tools/blob/main/LICENSE)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
-**PBI-PBIP Filters** is a Python package designed to process Power BI-generated JSON
-files for enhanced human-readability and seamless version control integration. The
-package provides two key executables:
+**PBIP-tools** is a Python package designed to process Power BI-generated JSON files for
+enhanced human-readability and seamless version control integration. The package
+provides two key executables:
 
 1. **`json-clean`**: Converts nested and complex Power BI-generated JSON files into a
    human-readable format.
@@ -31,7 +31,7 @@ package provides two key executables:
 You can install the package using pip:
 
 ```bash
-pip install pbi-pbip-filters
+pip install pbip-tools
 ```
 
 ## Usage
@@ -72,7 +72,7 @@ testing, `pre-commit` and `pytest` may be required.
 ## License
 
 This project is licensed under the MIT License. See the
-[LICENSE](https://github.com/moshemoshe137/PBI-PBIP-filters/blob/main/LICENSE) file for
+[LICENSE](https://github.com/moshemoshe137/pbip-tools/blob/main/LICENSE) file for
 details.
 
 ## Contributing

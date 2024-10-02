@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from pbi_pbip_filters.clean.clean_JSON import clean_json
-from pbi_pbip_filters.smudge.smudge_JSON import smudge_json
-from pbi_pbip_filters.type_aliases import JSONType
+from pbip_tools.clean.clean_JSON import clean_json
+from pbip_tools.smudge.smudge_JSON import smudge_json
+from pbip_tools.type_aliases import JSONType
 
 tests_directory = Path(__file__).parent
 json_files_list = list(tests_directory.glob("Sample PBIP Reports/**/*.json"))

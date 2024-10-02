@@ -13,11 +13,11 @@ import json
 import re
 import sys
 
-from pbi_pbip_filters.json_utils import (
+from pbip_tools.json_utils import (
     _process_and_save_json_files,
     _specified_stdin_instead_of_file,
 )
-from pbi_pbip_filters.type_aliases import JSONType
+from pbip_tools.type_aliases import JSONType
 
 
 def clean_json(json_data: JSONType) -> str:
