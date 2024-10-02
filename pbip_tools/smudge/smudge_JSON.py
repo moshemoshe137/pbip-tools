@@ -6,16 +6,10 @@ source for the command line utility `json-smudge`. Certain values are converted 
 strings so they can be correctly loaded in Power BI.
 """
 
-import argparse
-import glob
 import json
 import re
-import sys
 
-from pbip_tools.json_utils import (
-    _process_and_save_json_files,
-    _specified_stdin_instead_of_file,
-)
+from pbip_tools.cli import _run_main
 from pbip_tools.type_aliases import JSONType
 
 
@@ -121,47 +115,12 @@ replacement = r"\1\g<value>0\3"  # Tack on a zero in the hundredths place.
 
 
 def main() -> int:
-    """
-    Smudge files from CLI with `json-smudge`.
-
-    Process command line files or glob patterns and smudge each file in-place.
-
-    Returns
-    -------
-    int
-        Returns 0 on successful processing of all files.
-    """
-    parser = argparse.ArgumentParser(
-        prog="json-smudge",
-        description="Smudge PowerBI-generated JSON files that have been cleaned.",
+    """Smudge files from CLI with `json-smudge`."""
+    return _run_main(
+        tool_name="json-smudge",
+        desc="Smudge PowerBI-generated JSON files that have been cleaned.",
+        filter_function=smudge_json,
     )
-    parser.add_argument(
-        "filenames",
-        nargs="+",  # one or more
-        help=(
-            "One or more filenames or glob patterns to process, or pass '-' to read "
-            "from stdin and write to stdout."
-        ),
-        metavar="filename_or_glob",  # Name shown in CLI help text.
-    )
-
-    args = parser.parse_args()
-
-    # Read from stdin and print to stdout when `-` is given as the filename.
-    if _specified_stdin_instead_of_file(args.filenames):
-        json_data = json.load(sys.stdin)
-        filtered_json = smudge_json(json_data)
-        sys.stdout.write(filtered_json)
-        return 0
-
-    # Otherwise, we're processing one or more files or glob patterns.
-    files = (
-        file
-        for file_or_glob in args.filenames
-        for file in glob.glob(file_or_glob, recursive=True)
-    )
-
-    return _process_and_save_json_files(files, smudge_json)
 
 
 if __name__ == "__main__":
