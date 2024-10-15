@@ -10,7 +10,6 @@ in Power BI again.
 import json
 import re
 
-from pbip_tools.cli import _run_main
 from pbip_tools.type_aliases import JSONType
 
 
@@ -99,6 +98,8 @@ def clean_json(json_data: JSONType) -> str:
 
 def main() -> int:
     """Clean files from CLI with `json-clean`."""
+    from pbip_tools.cli import _run_main
+
     return _run_main(
         tool_name="json-clean",
         desc="Clean PowerBI generated nested JSON files.",

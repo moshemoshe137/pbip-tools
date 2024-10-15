@@ -28,6 +28,7 @@ requires-python = ">=3.10"
 [project.scripts]
 json-clean = "pbip_tools.clean.clean_JSON:main"
 json-smudge = "pbip_tools.smudge.smudge_JSON:main"
+pbip-tools = "pbip_tools.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/moshemoshe137/pbip-tools"
