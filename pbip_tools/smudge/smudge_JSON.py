@@ -9,7 +9,6 @@ strings so they can be correctly loaded in Power BI.
 import json
 import re
 
-from pbip_tools.cli import _run_main
 from pbip_tools.type_aliases import JSONType
 
 
@@ -116,6 +115,8 @@ replacement = r"\1\g<value>0\3"  # Tack on a zero in the hundredths place.
 
 def main() -> int:
     """Smudge files from CLI with `json-smudge`."""
+    from pbip_tools.cli import _run_main
+
     return _run_main(
         tool_name="json-smudge",
         desc="Smudge PowerBI-generated JSON files that have been cleaned.",
