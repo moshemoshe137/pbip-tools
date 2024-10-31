@@ -2,14 +2,14 @@
 
 import shutil
 import sys
-from collections.abc import Callable, Iterator
+from collections.abc import Callable, Iterable, Iterator
 from pathlib import Path
 
 import pytest
 
 from pbip_tools.clean.clean_JSON import clean_json
 from pbip_tools.smudge.smudge_JSON import smudge_json
-from pbip_tools.type_aliases import JSONType
+from pbip_tools.type_aliases import JSONType, PathLike
 
 tests_directory = Path(__file__).parent
 json_files_list = list(tests_directory.glob("Sample PBIP Reports/**/*.json"))
@@ -27,7 +27,7 @@ def json_files() -> list[Path]:
 
 
 @pytest.fixture
-def temp_json_files(json_files: list[Path], tmp_path: Path) -> Iterator[Path]:
+def temp_json_files(json_files: list[Path], tmp_path: Path) -> Iterable[Path]:
     """
     All JSON files from the sample Power BI report in a temporary directory.
 
@@ -36,8 +36,8 @@ def temp_json_files(json_files: list[Path], tmp_path: Path) -> Iterator[Path]:
 
     Returns
     -------
-    Iterator[Path]
-        A list or iterator over the temporary JSON filepaths.
+    Iterable[Path]
+        A list or Iterable over the temporary JSON filepaths.
     """
     for file in json_files:
         shutil.copy2(file, tmp_path / file.name)
@@ -86,7 +86,55 @@ def filter_function(request: pytest.FixtureRequest) -> Callable[[JSONType], str]
     return request.param
 
 
-@pytest.fixture(params=["json-clean", "json-smudge"])
-def filter_function_cli_executable(request: pytest.FixtureRequest) -> Path:
+filter_func_cli_executable_params = ["json-clean", "json-smudge"]
+pbip_tools_cli_executable_params = ["clean", "smudge"]
+any_cli_executable_params = (
+    filter_func_cli_executable_params + pbip_tools_cli_executable_params
+)
+
+
+@pytest.fixture(params=filter_func_cli_executable_params)
+def filter_func_cli_executable(request: pytest.FixtureRequest) -> Iterable[PathLike]:
     """Return the executable to `json-clean` or `json-smudge`."""
-    return Path(sys.executable).parent / request.param
+    tool = request.param
+    executable = Path(sys.executable).parent / tool
+
+    return [executable]
+
+
+@pytest.fixture(params=pbip_tools_cli_executable_params)
+def pbip_tools_cli_executable(request: pytest.FixtureRequest) -> Iterable[str]:
+    """
+    Return `pbip-tools clean` or `pbip-tools smudge` as a list.
+
+    Return either `pbip-tools clean` or `pbip-tools smudge` as a list ready to be
+    processed by `subprocess.run`.
+    """
+    executable = Path(sys.executable).parent / "pbip-tools"
+    subcommand = request.param
+    return map(str, [executable, subcommand])
+
+
+@pytest.fixture(params=["filter_func_cli_executable", "pbip_tools_cli_executable"])
+def any_cli_executable(
+    request: pytest.FixtureRequest,
+    filter_func_cli_executable: Iterable[PathLike],  # noqa: ARG001
+    pbip_tools_cli_executable: Iterable[str],  # noqa: ARG001 (Unused function argument)
+) -> Iterator[str]:
+    """
+    Return `json-clean`, `pbip-tools clean`, or smudge equivalents.
+
+    Combine the fixtures `filter_func_cli_executable` and `pbip_tools_cli_executable` to
+    yield all 4 command combinations. The result will be one of:
+      - `["json-clean"]`
+      - `["json-smudge"]`
+      - `["pbip-tools", "clean"]`
+      - `["pbip-tools", "smudge"]`
+    This fixture is meant to be passed to `subprocess.run`.
+
+    Notes
+    -----
+    Using `request.getfixturevalue` is kind of a hacky way to string together the two
+    fixtures in the function signature.
+    """
+    return request.getfixturevalue(request.param)

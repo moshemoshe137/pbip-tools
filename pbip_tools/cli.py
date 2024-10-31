@@ -46,7 +46,7 @@ def _run_main(
         nargs="+",  # one or more
         help=(
             "One or more filenames or glob patterns to process, or pass '-' to read"
-            "from stdin and write to stdout."
+            " from stdin and write to stdout."
         ),
         metavar="filename_or_glob",  # Name shown in CLI help text.
     )
@@ -80,32 +80,25 @@ def main() -> int:
         subparsers.add_parser("smudge"),
     )
 
-    for subparser in [parser, clean_parser, smudge_parser]:
+    for subparser in [clean_parser, smudge_parser]:
         subparser.add_argument(
             "filenames",
             nargs="+",  # one or more
             help=(
                 "One or more filenames or glob patterns to process, or pass '-' to read"
-                "from stdin and write to stdout."
+                " from stdin and write to stdout."
             ),
             metavar="filename_or_glob",  # Name shown in CLI help text.
         )
     args = parser.parse_args()
 
-    # if args.command == "clean":
-    #     return pbip_tools.clean.clean_JSON.main()
-    # if args.command == "smudge":
-    #     return pbip_tools.smudge_json.smudge_JSON.main()
     if args.command not in ["clean", "smudge"]:
         parser.print_help()
         return 1
-    if args.command == "clean":
-        filter_function = clean_json
-    elif args.command == "smudge":
-        filter_function = smudge_json
 
     # Read from stdin and print to stdout when `-` is given as the filename.
     if _specified_stdin_instead_of_file(args.filenames):
+        filter_function = {"clean": clean_json, "smudge": smudge_json}[args.command]
         json_data = json.load(sys.stdin)
         filtered_json = filter_function(json_data)
         sys.stdout.write(filtered_json)
@@ -115,11 +108,6 @@ def main() -> int:
     if args.command == "smudge":
         return pbip_tools.smudge.smudge_JSON.main()
 
-    # Otherwise, we're processing one or more files or glob patterns.
-    files = (
-        file
-        for file_or_glob in args.filenames
-        for file in glob.glob(file_or_glob, recursive=True)
-    )
-
-    return _process_and_save_json_files(files, filter_function)
+    # else
+    parser.print_help()
+    return -1
