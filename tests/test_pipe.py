@@ -2,7 +2,7 @@
 
 import json
 import subprocess
-from pathlib import Path
+from collections.abc import Iterator
 
 example_bad_json = (
     '{"foo": "bar", "nested": {"values": [0,1,2], "hidden":false},'
@@ -17,10 +17,10 @@ example_formatted_json = (
 )
 
 
-def test_stdin(filter_function_cli_executable: Path) -> None:
+def test_stdin(any_cli_executable: Iterator[str]) -> None:
     """Test that we get the expected output when piping through stdin."""
     result = subprocess.run(  # noqa: S603
-        [filter_function_cli_executable, "-"],
+        [*any_cli_executable, "-"],
         input=example_bad_json.encode("UTF-8"),
         check=True,
         capture_output=True,
