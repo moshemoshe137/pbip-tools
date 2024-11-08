@@ -13,7 +13,7 @@ import re
 from pbip_tools.type_aliases import JSONType
 
 
-def clean_json(json_data: JSONType) -> str:
+def clean_json(json_data: JSONType, indent: int = 2) -> str:
     """
     Clean and format nested JSON data for human-readability.
 
@@ -93,7 +93,7 @@ def clean_json(json_data: JSONType) -> str:
 
     json_data = format_nested_json_strings(json_data)
 
-    return json.dumps(json_data, ensure_ascii=False, indent=4)
+    return json.dumps(json_data, ensure_ascii=False, indent=indent)
 
 
 def main() -> int:

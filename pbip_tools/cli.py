@@ -6,7 +6,6 @@ import json
 import sys
 from collections.abc import Callable
 
-import pbip_tools
 from pbip_tools import clean_json, smudge_json
 from pbip_tools.json_utils import (
     _process_and_save_json_files,
@@ -90,24 +89,30 @@ def main() -> int:
             ),
             metavar="filename_or_glob",  # Name shown in CLI help text.
         )
+    clean_parser.add_argument(
+        "--indent", type=int, default=2, help="number of spaces to use for indentation."
+    )
     args = parser.parse_args()
 
     if args.command not in ["clean", "smudge"]:
         parser.print_help()
         return 1
 
+    filter_function = {
+        "clean": lambda text: clean_json(text, indent=args.indent),
+        "smudge": smudge_json,
+    }[args.command]
+
     # Read from stdin and print to stdout when `-` is given as the filename.
     if _specified_stdin_instead_of_file(args.filenames):
-        filter_function = {"clean": clean_json, "smudge": smudge_json}[args.command]
         json_data = json.load(sys.stdin)
         filtered_json = filter_function(json_data)
         sys.stdout.write(filtered_json)
         return 0
-    if args.command == "clean":
-        return pbip_tools.clean.clean_JSON.main()
-    if args.command == "smudge":
-        return pbip_tools.smudge.smudge_JSON.main()
 
-    # else
-    parser.print_help()
-    return -1
+    files = (
+        file
+        for file_or_glob in args.filenames
+        for file in glob.glob(file_or_glob, recursive=True)
+    )
+    return _process_and_save_json_files(files, filter_function)
