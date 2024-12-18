@@ -70,7 +70,9 @@ def json_from_file_str(json_file: Path) -> str:
     return Path(json_file).read_text(encoding="UTF-8")
 
 
-@pytest.fixture(params=[clean_json, smudge_json])
+@pytest.fixture(
+    params=[clean_json, smudge_json, lambda text: clean_json(text, indent=5)]
+)
 def filter_function(request: pytest.FixtureRequest) -> Callable[[JSONType], str]:
     """
     Fixture that provides either the `clean_json` or `smudge_json` function.
@@ -87,7 +89,7 @@ def filter_function(request: pytest.FixtureRequest) -> Callable[[JSONType], str]
 
 
 filter_func_cli_executable_params = ["json-clean", "json-smudge"]
-pbip_tools_cli_executable_params = ["clean", "smudge"]
+pbip_tools_cli_executable_params = ["clean", "smudge", "clean --indent=13"]
 any_cli_executable_params = (
     filter_func_cli_executable_params + pbip_tools_cli_executable_params
 )
@@ -111,8 +113,8 @@ def pbip_tools_cli_executable(request: pytest.FixtureRequest) -> Iterable[str]:
     processed by `subprocess.run`.
     """
     executable = Path(sys.executable).parent / "pbip-tools"
-    subcommand = request.param
-    return map(str, [executable, subcommand])
+    subcommand = request.param.split()
+    return list(map(str, [executable, *subcommand]))
 
 
 @pytest.fixture(params=["filter_func_cli_executable", "pbip_tools_cli_executable"])
@@ -125,11 +127,12 @@ def any_cli_executable(
     Return `json-clean`, `pbip-tools clean`, or smudge equivalents.
 
     Combine the fixtures `filter_func_cli_executable` and `pbip_tools_cli_executable` to
-    yield all 4 command combinations. The result will be one of:
+    yield all command combinations. The result will be appear like:
       - `["json-clean"]`
       - `["json-smudge"]`
       - `["pbip-tools", "clean"]`
       - `["pbip-tools", "smudge"]`
+      - `["pbip-tools", "clean", "--indent=3"]`
     This fixture is meant to be passed to `subprocess.run`.
 
     Notes

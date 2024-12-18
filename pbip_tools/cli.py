@@ -71,27 +71,7 @@ def _run_main(
 
 def main() -> int:
     """Primary entry point for `pbip-tools`."""
-    parser = argparse.ArgumentParser("pbip-tools", description="PBIP tools for CLI.")
-
-    subparsers = parser.add_subparsers(dest="command", required=True)
-    clean_parser, smudge_parser = (
-        subparsers.add_parser("clean"),
-        subparsers.add_parser("smudge"),
-    )
-
-    for subparser in [clean_parser, smudge_parser]:
-        subparser.add_argument(
-            "filenames",
-            nargs="+",  # one or more
-            help=(
-                "One or more filenames or glob patterns to process, or pass '-' to read"
-                " from stdin and write to stdout."
-            ),
-            metavar="filename_or_glob",  # Name shown in CLI help text.
-        )
-    clean_parser.add_argument(
-        "--indent", type=int, default=2, help="number of spaces to use for indentation."
-    )
+    parser = create_argparser()
     args = parser.parse_args()
 
     if args.command not in ["clean", "smudge"]:
@@ -116,3 +96,34 @@ def main() -> int:
         for file in glob.glob(file_or_glob, recursive=True)
     )
     return _process_and_save_json_files(files, filter_function)
+
+
+def create_argparser() -> argparse.ArgumentParser:
+    """Create the argument parser for the CLI."""
+    parser = argparse.ArgumentParser(
+        "pbip-tools",
+        description="PBIP tools for CLI.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    clean_parser, smudge_parser = (
+        subparsers.add_parser("clean", help="Clean JSON files."),
+        subparsers.add_parser("smudge", help="Smudge JSON files."),
+    )
+
+    for subparser in [clean_parser, smudge_parser]:
+        subparser.add_argument(
+            "filenames",
+            nargs="+",  # one or more
+            help=(
+                "One or more filenames or glob patterns to process, or pass '-' to read"
+                " from stdin and write to stdout."
+            ),
+            metavar="filename_or_glob",  # Name shown in CLI help text.
+        )
+    clean_parser.add_argument(
+        "--indent", type=int, default=2, help="number of spaces to use for indentation."
+    )
+
+    return parser

@@ -2,11 +2,10 @@
 
 import json
 import subprocess
-import sys
 from collections.abc import Callable, Iterable
 from pathlib import Path
 
-from pbip_tools.type_aliases import JSONType
+from pbip_tools.type_aliases import JSONType, PathLike
 
 
 def test_filter_doesnt_fail(
@@ -37,19 +36,11 @@ def test_filter_idempotence(
 
 
 def test_process_batch_files(
-    filter_function: Callable[[JSONType], str], temp_json_files: Iterable[Path]
+    filter_func_cli_executable: Iterable[PathLike], temp_json_files: Iterable[Path]
 ) -> None:
     """Test processing a list of files on the command line."""
-    # Fixes [S607](https://docs.astral.sh/ruff/rules/start-process-with-partial-path/).
-    # Find the absolute path to the `json-clean` or `json-smudge` executable.
-    executable_name = {
-        "clean_json": "json-clean",
-        "smudge_json": "json-smudge",
-    }[filter_function.__name__]
-    json_clean_executable = Path(sys.executable).parent / executable_name
-
     result = subprocess.run(  # noqa: S603
-        [json_clean_executable, *temp_json_files],
+        [*filter_func_cli_executable, *temp_json_files],
         check=True,
     )
 
