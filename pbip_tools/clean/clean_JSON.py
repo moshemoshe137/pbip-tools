@@ -12,6 +12,8 @@ import re
 
 from pbip_tools.type_aliases import JSONType
 
+MAX_LINE_LEN: int = 88
+
 
 def clean_json(json_data: JSONType, indent: int = 2) -> str:
     """
@@ -93,7 +95,53 @@ def clean_json(json_data: JSONType, indent: int = 2) -> str:
 
     json_data = format_nested_json_strings(json_data)
 
-    return json.dumps(json_data, ensure_ascii=False, indent=indent)
+    json_str = json.dumps(json_data, ensure_ascii=False, indent=indent)
+    return post_process_json_string(json_str)
+
+
+def post_process_json_string(json_string: str) -> str:
+    """
+    Condense JSON key-value pairs where possible, preserving indentation and structure.
+
+    Parameters
+    ----------
+    json_string : str
+        The JSON string to process.
+    max_line_len : int
+        Maximum allowed length for a single line.
+
+    Returns
+    -------
+    str
+        Condensed JSON string.
+    """
+    lines = json_string.splitlines()
+    result = []
+    buffer: list[str] = []
+
+    for line in lines:
+        stripped_line = line.strip()
+
+        # If buffer has collected a JSON key and a partial value
+        if buffer:
+            buffer.append(line)
+            if stripped_line.endswith(("}", "]")):
+                # Check if the buffered lines can fit on one line
+                combined = " ".join(buf.strip() for buf in buffer)
+                if len(combined) <= MAX_LINE_LEN:
+                    result.append(combined)
+                else:
+                    result.extend(buffer)  # If not, append as-is
+                buffer = []  # Clear the buffer
+            continue
+
+        # Detect start of a potential single-line condensible structure
+        if stripped_line.endswith(("{", "[")):
+            buffer.append(line)
+        else:
+            result.append(line)  # Regular line, add to result
+
+    return "\n".join(result)
 
 
 def main() -> int:
