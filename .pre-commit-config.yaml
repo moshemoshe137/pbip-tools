@@ -1,8 +1,8 @@
 default_stages:
   [
-    commit,
-    merge-commit,
-    push,
+    pre-commit,
+    pre-merge-commit,
+    pre-push,
     prepare-commit-msg,
     commit-msg,
     post-checkout,
@@ -18,7 +18,7 @@ exclude: |
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: check-added-large-files
       - id: check-ast
@@ -37,7 +37,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.11.2
+    rev: v1.13.0
     hooks:
       - id: mypy
         args:
@@ -47,25 +47,25 @@ repos:
           - pytest
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.5
+    rev: v0.8.4
     hooks:
       - id: ruff # Run the linter.
         args: [--fix]
       - id: ruff-format # Run the formatter.
 
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.8.7
+    rev: 1.9.1
     hooks:
       - id: nbqa-check-ast
       - id: nbqa-mypy
         additional_dependencies:
-          - mypy==1.11.2
+          - mypy==1.13.0
         args:
           - --install-types
           - --non-interactive
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.29.2
+    rev: 0.30.0
     hooks:
       - id: check-github-actions
       - id: check-github-workflows
