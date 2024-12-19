@@ -26,7 +26,6 @@ def test_stdin(any_cli_executable: list[str]) -> None:
         SystemExit,  # i.e. when using the legacy `json-clean` or `json-smudge` tools.
     ):
         indent = 2
-    print(f"{indent=}")
     result = subprocess.run(  # noqa: S603
         [*any_cli_executable, "-"],
         input=example_bad_json.encode("UTF-8"),
