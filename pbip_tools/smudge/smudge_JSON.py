@@ -108,7 +108,7 @@ pattern_decimal_with_tenths_place_only = r"""(?x)  # (Turns on comments for this
         (           # %%%%%%%%% Start Capturing Part 3 (text after the value) %%%%%%%%%%
             \s*?        # There *might* be space after the digit.
             []},]       # Usually ends with ","; might end with "}" or "]".
-        )           # %%%%%%%% Finish Capturing Part 13 (text after the value) %%%%%%%%%
+        )           # %%%%%%%%% Finish Capturing Part 3 (text after the value) %%%%%%%%%
         """
 
 replacement = r"\1\g<value>0\3"  # Tack on a zero in the hundredths place.
