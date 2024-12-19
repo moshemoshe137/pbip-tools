@@ -71,7 +71,8 @@ def smudge_json(json_data: JSONType) -> str:
                         value,
                         ensure_ascii=False,
                         indent=0,
-                        separators=(",", ":"),
+                        separators=(",", ":"),  # without trailing whitespace
+                        sort_keys=True,
                     ).replace("\n", "")
                 else:
                     # Recursively apply the smudge operation
@@ -87,7 +88,7 @@ def smudge_json(json_data: JSONType) -> str:
     json_data = recursively_smudge_json(json_data)
 
     # Final post-processing
-    data_str = json.dumps(json_data, ensure_ascii=False, indent=2)
+    data_str = json.dumps(json_data, ensure_ascii=False, indent=2, sort_keys=True)
     data_str = re.sub(pattern_decimal_with_tenths_place_only, replacement, data_str)
     return data_str  # noqa: RET504: "Unnecessary assignment to `data_str` before `return` statement"
 

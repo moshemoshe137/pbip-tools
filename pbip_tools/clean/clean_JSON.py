@@ -93,7 +93,7 @@ def clean_json(json_data: JSONType, indent: int = 2) -> str:
 
     json_data = format_nested_json_strings(json_data)
 
-    return json.dumps(json_data, ensure_ascii=False, indent=indent)
+    return json.dumps(json_data, ensure_ascii=False, indent=indent, sort_keys=True)
 
 
 def main() -> int:

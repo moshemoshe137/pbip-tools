@@ -11,10 +11,10 @@ example_bad_json = (
 )
 
 example_formatted_json = (
-    '{\n  "foo": "bar",\n  "nested": {\n    "values": [\n      0,\n      1,\n      2\n'
-    '    ],\n    "hidden": false\n  },\n  "list_o_things": [\n    0,\n    true,\n    '
-    '3.14,\n    "things have spaces"\n  ]\n}'
-)
+    '{\n  "foo": "bar",\n  "list_o_things": [\n    0,\n    true,\n    3.14,\n    '
+    '"things have spaces"\n  ],\n  "nested": {\n    "hidden": false,\n    "values": '
+    '[\n      0,\n      1,\n      2\n    ]\n  }\n}'
+)  # (single quotes work better here)  # fmt: skip
 
 
 def test_stdin(any_cli_executable: list[str]) -> None:
