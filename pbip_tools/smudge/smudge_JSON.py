@@ -7,7 +7,6 @@ strings so they can be correctly loaded in Power BI.
 """
 
 import json
-import re
 
 from pbip_tools.type_aliases import JSONType
 
@@ -89,29 +88,7 @@ def smudge_json(json_data: JSONType) -> str:
 
     # Final post-processing
     data_str = json.dumps(json_data, ensure_ascii=False, indent=2, sort_keys=True)
-    data_str = re.sub(pattern_decimal_with_tenths_place_only, replacement, data_str)
     return data_str  # noqa: RET504: "Unnecessary assignment to `data_str` before `return` statement"
-
-
-pattern_decimal_with_tenths_place_only = r"""(?x)  # (Turns on comments for this regex.)
-        (           # !!!!!!!!! Start Capturing Part 1 (text before the value) !!!!!!!!!
-            \s*?:       # Zero or more spaces followed by a colon.
-            \s*?        # There *might* be space after the colon.
-        )           # !!!!!!!! Finish Capturing Part 1 (text before the value) !!!!!!!!!
-
-        (?P<value>  # $$$$$$$$$$$$$$$$$$$$ Start Capturing "value" $$$$$$$$$$$$$$$$$$$$$
-            \d+         # One or more digits...
-            \.          # followed by a literal dot...
-            \d          # followed by exactly one digit in the tenths place.
-        )           # $$$$$$$$$$$$$$$$$$$ Finish Capturing "value" $$$$$$$$$$$$$$$$$$$$$
-
-        (           # %%%%%%%%% Start Capturing Part 3 (text after the value) %%%%%%%%%%
-            \s*?        # There *might* be space after the digit.
-            []},]       # Usually ends with ","; might end with "}" or "]".
-        )           # %%%%%%%%% Finish Capturing Part 3 (text after the value) %%%%%%%%%
-        """
-
-replacement = r"\1\g<value>0\3"  # Tack on a zero in the hundredths place.
 
 
 def main() -> int:

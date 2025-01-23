@@ -5,6 +5,7 @@ import subprocess
 from collections.abc import Callable, Iterable
 from pathlib import Path
 
+from pbip_tools import clean_json, smudge_json
 from pbip_tools.type_aliases import JSONType, PathLike
 
 
@@ -45,3 +46,12 @@ def test_process_batch_files(
     )
 
     assert result.returncode == 0
+
+
+def test_roundtrip(json_from_file_str: str) -> None:
+    """Test that cleaning undoes smudging."""
+    cleaned = clean_json(json.loads(json_from_file_str))
+    smudged = smudge_json(json.loads(cleaned))
+    smudged_then_cleaned = clean_json(json.loads(smudged))
+
+    assert cleaned == smudged_then_cleaned
