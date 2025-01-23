@@ -4,6 +4,8 @@ on:
   push: # Trigger on any push
   pull_request: # Trigger on any Pull Request
   workflow_dispatch: # Allow manual runs
+  schedule: # Run on Mondays at 01:00 AM Central Time (or 02:00 AM with DST)
+    - cron: "0 7 * * MON"
 
 defaults:
   run:
