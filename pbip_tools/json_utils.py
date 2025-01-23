@@ -60,7 +60,7 @@ def _process_and_save_json_files(
                 warnings.warn(warning_msg, UserWarning, stacklevel=2)
                 continue
 
-            json_from_file = json.loads(json_from_file_as_str)
+            json_from_file = json.loads(json_from_file_as_str, parse_constant=str)
             processed_json = process_func(json_from_file)
 
             with Path(file).open("w", encoding="UTF-8") as f:

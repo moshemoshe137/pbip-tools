@@ -82,7 +82,7 @@ def clean_json(json_data: JSONType, indent: int = 2) -> str:
                     # number or a boolean formatted as a string.
                     continue
                 try:
-                    parsed_value = json.loads(value)
+                    parsed_value = json.loads(value, parse_constant=str)
                     formatted_value = format_nested_json_strings(parsed_value)
                     json_data_subset[list_position_or_dict_key] = (  # type:ignore[index]
                         formatted_value

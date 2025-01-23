@@ -55,3 +55,14 @@ def test_roundtrip(json_from_file_str: str) -> None:
     smudged_then_cleaned = clean_json(json.loads(smudged))
 
     assert cleaned == smudged_then_cleaned
+
+
+def test_no_nan_or_infinity(json_from_file_str: str) -> None:
+    """Ensure that the JSON file does not contain NaN or Infinity."""
+    cleaned = clean_json(json.loads(json_from_file_str))
+    dumped = json.dumps(
+        json.loads(cleaned),
+        allow_nan=False,  # This will raise a ValueError if NaN or Infinity are present
+    )
+
+    assert json.loads(dumped) != {}  # Not an empty dict
