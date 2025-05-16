@@ -7,13 +7,16 @@ cleaned files *must* be smudged with the `json-smudge` filter before they are lo
 in Power BI again.
 """
 
+import contextlib
 import json
 import re
 
 from pbip_tools.type_aliases import JSONType
 
 
-def clean_json(json_data: JSONType, indent: int = 2) -> str:
+def clean_json(
+    json_data: JSONType, indent: int = 2, *, ignore_list_order: bool = False
+) -> str:
     """
     Clean and format nested JSON data for human-readability.
 
@@ -89,6 +92,15 @@ def clean_json(json_data: JSONType, indent: int = 2) -> str:
                     )
                 except json.JSONDecodeError:
                     continue
+
+        # ← sort any lists *after* recursion, so every clean pass is identical
+        if ignore_list_order and isinstance(json_data_subset, list):
+            with contextlib.suppress(TypeError, ValueError):
+                json_data_subset.sort(
+                    key=lambda item: json.dumps(
+                        item, ensure_ascii=False, sort_keys=True
+                    )
+                )
         return json_data_subset
 
     json_data = format_nested_json_strings(json_data)
