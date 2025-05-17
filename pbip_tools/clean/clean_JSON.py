@@ -15,7 +15,7 @@ from pbip_tools.type_aliases import JSONType
 
 
 def clean_json(
-    json_data: JSONType, indent: int = 2, *, ignore_list_order: bool = False
+    json_data: JSONType, indent: int = 2, *, sort_lists: bool = False
 ) -> str:
     """
     Clean and format nested JSON data for human-readability.
@@ -94,7 +94,7 @@ def clean_json(
                     continue
 
         # ← sort any lists *after* recursion, so every clean pass is identical
-        if ignore_list_order and isinstance(json_data_subset, list):
+        if sort_lists and isinstance(json_data_subset, list):
             with contextlib.suppress(TypeError, ValueError):
                 json_data_subset.sort(
                     key=lambda item: json.dumps(
