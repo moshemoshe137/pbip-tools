@@ -89,7 +89,13 @@ def filter_function(request: pytest.FixtureRequest) -> Callable[[JSONType], str]
 
 
 filter_func_cli_executable_params = ["json-clean", "json-smudge"]
-pbip_tools_cli_executable_params = ["clean", "smudge", "clean --indent=13"]
+pbip_tools_cli_executable_params = [
+    "clean",
+    "smudge",
+    "clean --indent=13",
+    "clean --ignore-list-order",
+    "clean --indent=17 --ignore-list-order",
+]
 any_cli_executable_params = (
     filter_func_cli_executable_params + pbip_tools_cli_executable_params
 )
@@ -132,7 +138,9 @@ def any_cli_executable(
       - `["json-smudge"]`
       - `["pbip-tools", "clean"]`
       - `["pbip-tools", "smudge"]`
-      - `["pbip-tools", "clean", "--indent=3"]`
+      - `["pbip-tools", "clean", "--indent=13"]`
+      - `["pbip-tools", "clean", "--ignore-list-order"]`
+      - `["pbip-tools", "clean", "--indent=17", "--ignore-list-order"]`
     This fixture is meant to be passed to `subprocess.run`.
 
     Notes
