@@ -1,7 +1,7 @@
 [project]
 name = "pbip-tools"
 description = "Smudge and Clean filters for Power BI-generated JSON files."
-version = "0.2.0"
+version = "0.3.0"
 
 authors = [
     {name = "Moshe Rubin", email = "mosherubin137@gmail.com"}
