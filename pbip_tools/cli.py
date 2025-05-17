@@ -80,7 +80,7 @@ def main() -> int:
 
     filter_function = {
         "clean": lambda text: clean_json(
-            text, indent=args.indent, ignore_list_order=args.ignore_list_order
+            text, indent=args.indent, sort_lists=args.sort_lists
         ),
         "smudge": smudge_json,
     }[args.command]
@@ -129,7 +129,7 @@ def create_argparser() -> argparse.ArgumentParser:
         "--indent", type=int, default=2, help="number of spaces to use for indentation."
     )
     clean_parser.add_argument(
-        "--ignore-list-order",
+        "--sort-lists",
         action="store_true",
         default=False,
         help="Ignore the order of lists when cleaning JSON files.",

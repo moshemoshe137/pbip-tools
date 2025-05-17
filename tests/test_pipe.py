@@ -16,13 +16,13 @@ def test_stdin(any_cli_executable: list[str]) -> None:
     try:
         args = create_argparser().parse_args([*any_cli_executable[1:], "-"])
         indent = args.indent
-        ignore_list_order = args.ignore_list_order
+        sort_lists = args.sort_lists
     except (
         AttributeError,  # i.e. when using the `smudge` subcommand.
         SystemExit,  # i.e. when using the legacy `json-clean` or `json-smudge` tools.
     ):
         indent = 2
-        ignore_list_order = False
+        sort_lists = False
     result = subprocess.run(  # noqa: S603
         [*any_cli_executable, "-"],
         input=example_bad_json.encode("UTF-8"),
@@ -31,7 +31,7 @@ def test_stdin(any_cli_executable: list[str]) -> None:
     )
     result_text = result.stdout.decode("UTF-8").replace("\r\n", "\n")
 
-    if ignore_list_order:
+    if sort_lists:
         example_formatted_json = (
             '{\n  "foo": "bar",\n  "list_o_things": [\n    "things have spaces",\n    0'
             ',\n    3.14,\n    true\n  ],\n  "nested": {\n    "hidden": false,\n    '
