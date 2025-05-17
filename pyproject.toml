@@ -61,16 +61,14 @@ strict_equality = true
 pretty = true
 show_error_codes = true
 
-[tool.ruff]
-target-version = "py312"
-extend-include = ["*.ipynb"]
-
 [tool.pytest.ini_options]
 addopts = "--doctest-modules --random-order-seed=0 --cov-report=xml --cov-report=term --cov-append"
 minversion = "8.0"
 required_plugins = "pytest-random-order pytest-cov"
 xfail_strict = true
 
+
+# Ruff config
 [tool.ruff.lint]
 extend-select = ["ALL"]
 ignore = [
