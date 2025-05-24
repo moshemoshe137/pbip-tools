@@ -44,6 +44,18 @@ To clean a Power BI-generated JSON file for readability, run the following comma
 pbip-tools clean [options] <file-or-glob> [<file-or-glob2> ... ]
 ```
 
+**Clean Options:**
+
+- `--indent=<n>`
+
+  Use `<n>` spaces to use for indentation instead of the usual `2`.
+
+- `--sort-lists`
+
+  Sort JSON arrays before printing for consistent diffs.
+
+  **Note:** Do NOT use `--sort-lists` if the input order of your lists is important.
+
 Example:
 
 ```bash
@@ -63,6 +75,19 @@ Example:
 ```bash
 pbip-tools smudge cleaned_report.json cleaned/**/*.json
 ```
+
+### Global Options
+
+- `-h`, `--help`
+
+  Show help message and exit.
+
+<!-- TODO
+
+- `--version`
+
+  Show version information and exit
+-->
 
 ## Dependencies
 
