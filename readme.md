@@ -7,28 +7,28 @@
 
 **PBIP-tools** is a Python package designed to process Power BI-generated JSON files for
 enhanced human-readability and seamless version control integration. The package
-provides two key executables:
+provides two key programs:
 
-1. **`json-clean`**: Converts nested and complex Power BI-generated JSON files into a
-   human-readable format.
+1. **`pbip-tools clean`**: Converts nested and complex Power BI-generated JSON files
+   into a human-readable format.
 
-2. **`json-smudge`**: Reverses the cleaning process, restoring the JSON files to a
+2. **`pbip-tools smudge`**: Reverses the cleaning process, restoring the JSON files to a
    format that Power BI can properly load.
 
 ## Features
 
-- **Human-readable JSON**: The `json-clean` utility de-nests JSON objects and JSON
+- **Human-readable JSON**: The `pbip-tools clean` utility de-nests JSON objects and JSON
   strings for easier understanding and editing.
 
-- **Restoration for Power BI**: The `json-smudge` utility ensures that files cleaned by
-  `json-clean` can be reloaded into Power BI.
+- **Restoration for Power BI**: The `pbip-tools smudge` utility ensures that files
+  cleaned by `pbip-tools clean` can be reloaded into Power BI.
 
-- **Command-line utilities**: Both `json-clean` and `json-smudge` can be used directly
-  from the command line for seamless file processing.
+- **Command-line utilities**: Both filters can be used directly from the command line
+  for seamless file processing.
 
 ## Installation
 
-You can install the package using pip:
+You can install the package [from PyPI](https://pypi.org/project/pbip-tools/) with pip:
 
 ```bash
 pip install pbip-tools
@@ -41,33 +41,33 @@ pip install pbip-tools
 To clean a Power BI-generated JSON file for readability, run the following command:
 
 ```bash
-json-clean <file-or-glob> [<file-or-glob2> ... ]
+pbip-tools clean [options] <file-or-glob> [<file-or-glob2> ... ]
 ```
 
 Example:
 
 ```bash
-json-clean report.json my_folder/*.json
+pbip-tools clean --indent=4 report.json my_folder/*.json
 ```
 
 ### Smudging a JSON File
 
-To restore a cleaned JSON file to its original state for Power BI loading, run:
+To restore a "cleaned" JSON file to its original state for Power BI loading, run:
 
 ```bash
-json-smudge <file-or-glob> [<file-or-glob2> ...]
+pbip-tools smudge <file-or-glob> [<file-or-glob2> ...]
 ```
 
 Example:
 
 ```bash
-json-smudge cleaned_report.json cleaned/**/*.json
+pbip-tools smudge cleaned_report.json cleaned/**/*.json
 ```
 
 ## Dependencies
 
-This package depends solely on Python’s standard libraries. For contributing and
-testing, `pre-commit` and `pytest` may be required.
+This package depends solely on Python’s standard libraries. `tox` is required for
+contributing and testing.
 
 ## License
 
